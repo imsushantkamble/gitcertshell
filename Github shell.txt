@@ -57,7 +57,8 @@ Application allows Blank Password Login
 Missing Antivirus/Antimalware scan on uploded files
 "1. Go to https://target.web.crproxy.myexercises.in/v1/adm/add-items. Upload .reverseShell.php file along with other details and click on ""Upload"".
  2. Click Submit and observe that the file is inserted successfully (where only image is allowed). 
- 
+ == Reference -- https://www.eicar.org/download-anti-malware-testfile/  (Malware File) 
+== Rev Shell -- https://github.com/Wh1ter0sEo4/reverse_shell_php/blob/main/reverse_shell.php 
  This confirmed that there was no content type validation on uploaded files and the server did not have antivirus/antimalware installed or properly configured."
 =======================================================================
 
@@ -317,3 +318,74 @@ Missing Custom Error Pages
 "Step 1: In the url path shown, inject a single quote character to get the custom whitelabel error page.
  Step 2: Now inject a null byte character as shown and the appliocation throws a general error with 400 code and not the custom whitelabel error page as above."
 =======================================================================
+
+Adding quantity in negative
+ "1. Redirect to https://target.web.crproxy.myexercises.in/v1/client/dashboard
+ 2. Select the number of quantity and click on add to cart.
+ 3. Capture the request in burp suite and change the quantity of the product in negative values and forward the request
+ 4. Go to https://target.web.crproxy.myexercises.in/v1/client/cart and make the payment
+ 5. Redirect to track orders [https://target.web.crproxy.myexercises.in/v1/client/list-orders] and click on details of the order.
+ 6. You will see the quantity in negative in order details page."
+===========================================================================
+
+Allowing copy-paste in sensitive input fields
+Visit the vulnerable locations. Copy the value of sensitive input fileds like email, password, phone number, new password etc and paste the same into another browser window where the same application is opened for testing purpose. Observed that copy and paste operations are allowed on sensitive input fields. Allowing users to copy and paste their usernames and passwords in an application can have security implications as it potentially increases the risk of sensitive information exposure if sensitive information is saved in plaintext files, emails etc.
+===============================================================================================
+
+Purchasing Orders in less than actual price
+"1. Redirect to https://target.web.crproxy.myexercises.in/v1/client/dashboard
+ 2. Add the items to the cart and redirect to https://target.web.crproxy.myexercises.in/v1/client/cart.
+ 3. Add the transaction number and submit it.
+ 4. Capture the request in the burp suite, change the amount to less than the actual amount and submit the request.
+ 5. Order is successfully placed."
+===============================================================================================
+
+Indirect Object Reference
+
+"1. Log in as a normal user and visit cart functionality ""/v1/client/cart""
+ 2. Try to remove an Itom from the Cart and intercept the request
+ 3. Change the Itom number (endpoint in the request) and forward the request.
+ 4. Check the victim cart for an itom removal."
+
+====================================================================================================
+
+Able To See Others Order Details
+"Step 1: Login to and go to https://target.web.crproxy.myexercises.in/v1/client/profile
+ Step 2: Then go to https://target.web.crproxy.myexercises.in/v1/client/track/KBHARCI5KR
+ Step 3: Now you have to just change the tracker ID"
+
+=======================================================
+Insufficient Anti-automation
+"Shopping Cart => Transaction Number
+ Master Paper Board => List of newly added Products"
+
+"Step 1: Login and add a product to the cart, on the shopping cart enter the transaction number and submit.
+ Step 2: Intercept the request and send it to the intruder, forward the request
+ Step 3: The order is successfully placed and it generates the Transaction number for the order.
+ Step 4: In the Intruder, automate this manual process repeatedly by setting null payloads and replay this api call continuosly and see this generates a lot of transaction records with transaction number in a small amount of time as shown.
+ Step 5: Similarly repeat the same steps for Master Paper Board section, to automate the manual operation to generate a lot of requests in a small amount of time as shown below."
+=========================================================================================
+
+Application Allows Creating Blank Orders
+
+"Step 1: Login and add a product to the cart, on the shopping cart enter the transaction number and submit.
+ Step 2: Intercept the request and send it to the repeater, forward the request
+ Step 3: The order is successfully placed and it generates the Transaction number for the order.
+ Step 4: Now replay the order sent to the repeater, it generates the transaction order, but if you inspect the Order details from the Details button, the order is blank with no order details as shown below which is a business logic error in terms of application functionality."
+
+==============================================================================================
+Password history not maintained
+"1: Login to application. Under Profile section, navigate to Change Password.
+ 2: Enter the old, new and confirm new password. Hit Change Password. A new password is updated.
+ 3: Enter the same old password in New & Confirm password field and click update.
+ 4: The application updates the old password as the new password without validating the Password History requirements."
+
+========================================================
+Web server harvested email address
+
+==========================================
+Hyperlink injection
+"1. Login to the application and visit the Profile section.
+ 2. Update the organisation address field and add this payload ""<a href=""https://example.com"" target=""_blank"" > Visit example.com </a> for more details about service offerings."" and click update.
+ 3. Go to About Us page, observed that the link in the message above is successfully injected and stored on the page as shown below:"
+
